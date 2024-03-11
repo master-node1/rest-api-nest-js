@@ -12,6 +12,12 @@ export class MovieService {
   }
 
   async addMovie(data) {
+    const existingRecord = await this.mediaModel.findOne({
+      title: data.title,
+    });
+    if (existingRecord) {
+      throw 'error_title_must_be_unique';
+    }
     const result = await this.mediaModel.create(data);
     return {
       message: 'movie_created_successfully',
@@ -20,6 +26,15 @@ export class MovieService {
   }
 
   async updateMovieInfo(id, data) {
+    const existingRecord = await this.mediaModel.findOne({
+      title: data.title,
+      _id: {
+        $ne: id,
+      },
+    });
+    if (existingRecord) {
+      throw 'error_title_must_be_unique';
+    }
     await this.mediaModel.updateOne({ _id: id }, data);
     return {
       message: 'movie_updated_successfully',

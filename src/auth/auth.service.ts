@@ -4,6 +4,7 @@ import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { Cache } from 'cache-manager';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -13,7 +14,7 @@ export class AuthService {
     @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
   ) {}
 
-  async login(data: any) {
+  async login(data: LoginDto) {
     const { email, password } = data;
     if (!email || !password) {
       throw 'error_invalid_data';
