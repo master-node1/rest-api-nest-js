@@ -1,0 +1,208 @@
+{
+	"info": {
+		"_postman_id": "75ebca9a-9406-49af-a4e1-3b66cfd24c2e",
+		"name": "OTT",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31167707"
+	},
+	"item": [
+		{
+			"name": "Search by title/genre",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/search?q=Siva",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"search"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "Siva"
+						}
+					]
+				},
+				"description": "This endpoint sends an HTTP GET request to [http://localhost:3000/search](http://localhost:3000/search) to search for a specific query. The query parameter \"q\" is set to \"Siva\". It will check movie match with key siva in title and genre. Upon a successful execution, the response will have a status code of 200 and a content type of application/json. The response will include an array of objects with keys _id, title, genre, rating, streaming_link, and __v."
+			},
+			"response": []
+		},
+		{
+			"name": "List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/movies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"movies"
+					]
+				},
+				"description": "\nThis endpoint makes an HTTP GET request to retrieve a list of movies from the server. The response will be in JSON format and will include an array of movie objects, where each object contains the movie's ID, title, genre, rating, and streaming link. The \"__v\" field is also included in each object. \n"
+			},
+			"response": []
+		},
+		{
+			"name": "Movies Create",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWVjMDNiZDdmODg0ZDQyYWM3OWY5YWMiLCJuYW1lIjoic2F0ZWVzaCIsImVtYWlsIjoiYWRtaW5Ab3R0LmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJHV3cXptNUNWYzJReTlUU1ZLMVE4cmVHRXB3ZGJaUUd5YnA0enRqTUs3MnNaZ3ZodGNWQ3I2Iiwicm9sZSI6ImFkbWluIiwiX192IjowLCJpYXQiOjE3MTAyNjQzMjEsImV4cCI6MTcxMDI2NzkyMX0._iANvKTKzOpviVDVcLLRdAFBoUwC1b8gV8NPGJU41Zk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"The Shawshank Redemption\",\r\n    \"genre\": \"Drama\",\r\n    \"rating\": \"9.3\",\r\n    \"streaming_link\": \"https://loaldas.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/movies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"movies"
+					]
+				},
+				"description": "\nThis endpoint allows you to add a new movie to the database. \n\n### Request Body\n- `title` (string, required): The title of the movie.\n- `genre` (string, required): The genre of the movie.\n- `rating` (string, required): The rating of the movie.\n- `streaming_link` (string, required): The streaming link of the movie.\n\n### Response\nUpon successful creation, the endpoint returns a status code of 201 and a JSON response with the following structure:\n```json\n{\n    \"message\": \"string\",\n    \"result\": {\n        \"title\": \"string\",\n        \"genre\": \"string\",\n        \"rating\": \"string\",\n        \"streaming_link\": \"string\",\n        \"_id\": \"string\",\n        \"__v\": 0\n    }\n}\n```\n- `message` (string): A message indicating the status of the operation.\n- `result` (object): An object containing the details of the newly added movie, including its `title`, `genre`, `rating`, `streaming_link`, `_id`, and `__v` properties.\n"
+			},
+			"response": []
+		},
+		{
+			"name": "update",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWVjMDNiZDdmODg0ZDQyYWM3OWY5YWMiLCJuYW1lIjoic2F0ZWVzaCIsImVtYWlsIjoiYWRtaW5Ab3R0LmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJHV3cXptNUNWYzJReTlUU1ZLMVE4cmVHRXB3ZGJaUUd5YnA0enRqTUs3MnNaZ3ZodGNWQ3I2Iiwicm9sZSI6ImFkbWluIiwiX192IjowLCJpYXQiOjE3MTAyNjQzMjEsImV4cCI6MTcxMDI2NzkyMX0._iANvKTKzOpviVDVcLLRdAFBoUwC1b8gV8NPGJU41Zk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"The Shawshank\",\r\n    \"genre\": \"Drama\",\r\n    \"rating\": \"9.3\",\r\n    \"streaming_link\": \"https://loaldas.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/movies/65ed9976684fc2a040174b03",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"movies",
+						"65ed9976684fc2a040174b03"
+					]
+				},
+				"description": "\nThis endpoint allows you to update a specific movie by sending an HTTP PUT request to the specified URL. The request should include a JSON payload in the raw request body, containing the updated information for the movie such as title, genre, rating, and streaming link.\n\n### Request Body\n- `title` (string): The updated title of the movie.\n- `genre` (string): The updated genre of the movie.\n- `rating` (string): The updated rating of the movie.\n- `streaming_link` (string): The updated streaming link of the movie.\n\n### Response\nUpon a successful update, the endpoint will return a status code of 200 and a JSON response with a message indicating the success, the updated data of the movie including the title, genre, rating, and streaming link, and the ID of the movie.\n\nExample:\n```json\n{\n    \"message\": \"Movie updated successfully\",\n    \"data\": {\n        \"title\": \"Updated Title\",\n        \"genre\": \"Updated Genre\",\n        \"rating\": \"Updated Rating\",\n        \"streaming_link\": \"Updated Streaming Link\"\n    },\n    \"id\": \"65ed9976684fc2a040174b03\"\n}\n```\n"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Movie",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWVjMDNiZDdmODg0ZDQyYWM3OWY5YWMiLCJuYW1lIjoic2F0ZWVzaCIsImVtYWlsIjoiYWRtaW5Ab3R0LmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJHV3cXptNUNWYzJReTlUU1ZLMVE4cmVHRXB3ZGJaUUd5YnA0enRqTUs3MnNaZ3ZodGNWQ3I2Iiwicm9sZSI6ImFkbWluIiwiX192IjowLCJpYXQiOjE3MTAyNjQzMjEsImV4cCI6MTcxMDI2NzkyMX0._iANvKTKzOpviVDVcLLRdAFBoUwC1b8gV8NPGJU41Zk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/movies/65f09132891fb9c0bcab3e1a",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"movies",
+						"65f09132891fb9c0bcab3e1a"
+					]
+				},
+				"description": "\n### Delete Movie\nThis endpoint is used to delete a specific movie.\n\n#### Request Parameters\n- `movieId` (path) : The unique identifier of the movie to be deleted.\n\n#### Response\n- `message` (string) : A message confirming the deletion.\n- `id` (string) : The unique identifier of the deleted movie.\n\nExample:\n```json\n{\n    \"message\": \"Movie deleted successfully\",\n    \"id\": \"65f09132891fb9c0bcab3e1a\"\n}\n```\n"
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"admin@ott.com\",\r\n    \"password\": \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"login"
+					]
+				},
+				"description": "\nThis endpoint is used to authenticate and log in a user. Upon successful authentication, it returns an access token in the response.\n\n### Request Body\n- email (text, required): The email of the user.\n- password (text, required): The password of the user.\n\n### Response\n- Status: 201\n- Content-Type: application/json\n- access_token: The access token required for subsequent authenticated requests.\n"
+			},
+			"response": []
+		}
+	]
+}

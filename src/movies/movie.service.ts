@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Media } from './models/media.models';
 import { Model } from 'mongoose';
+import { CreateMovieDto } from './dto/movie.dto';
 
 @Injectable()
 export class MovieService {
@@ -11,14 +12,16 @@ export class MovieService {
     return await this.mediaModel.find();
   }
 
-  async addMovie(data) {
+  async addMovie(data: CreateMovieDto) {
+    console.log('data: ', data);
     const existingRecord = await this.mediaModel.findOne({
       title: data.title,
     });
     if (existingRecord) {
+      console.log('hello');
       throw 'error_title_must_be_unique';
     }
-    const result = await this.mediaModel.create(data);
+    const result = await (await this.mediaModel.create(data)).toJSON();
     return {
       message: 'movie_created_successfully',
       result,

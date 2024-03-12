@@ -27,8 +27,17 @@ export class MovieController {
 
   @Post()
   async addMovie(@Body() data: CreateMovieDto) {
-    const result = await this.movieService.addMovie(data);
-    return result;
+    try {
+      const result = await this.movieService.addMovie(data);
+      return result;
+    } catch (error) {
+      switch (error) {
+        case 'error_title_must_be_unique':
+          throw new BadRequestException(error);
+        default:
+          throw new InternalServerErrorException(error);
+      }
+    }
   }
 
   @Put('/:id')
@@ -36,8 +45,17 @@ export class MovieController {
     @Param('id') id: mongoose.Schema.Types.ObjectId,
     @Body() data: MutateMovieDto,
   ) {
-    const result = await this.movieService.updateMovieInfo(id, data);
-    return result;
+    try {
+      const result = await this.movieService.updateMovieInfo(id, data);
+      return result;
+    } catch (error) {
+      switch (error) {
+        case 'error_title_must_be_unique':
+          throw new BadRequestException(error);
+        default:
+          throw new InternalServerErrorException(error);
+      }
+    }
   }
 
   @Delete('/:id')
