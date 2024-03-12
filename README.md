@@ -41,9 +41,8 @@ $ npm run start
 # watch mode
 $ npm run start:dev
 
-# production mode
-$ npm run start:prod
-```
+
+```use the postman document in repo to access apis. To access post, put ,delete api use login api and copy the token and set it as bearer token request auth
 
 ## Test
 
