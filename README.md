@@ -41,9 +41,8 @@ $ npm run start
 # watch mode
 $ npm run start:dev
 
-# production mode
-$ npm run start:prod
-```
+
+```use the postman document in repo to access apis. To access post, put ,delete api use login api and copy the token and set it as bearer token request auth
 
 ## Test
 
@@ -51,11 +50,6 @@ $ npm run start:prod
 # unit tests
 $ npm run test
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
 
 ## Support
@@ -64,9 +58,8 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 ## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- Author - [@Sateesh Raja](learnings.sateesh@gmail.com)
+- LinkedIn - [@LinkedIn](https://www.linkedin.com/in/sateesh-raja-sireddi-2631a5178)
 
 ## License
 
