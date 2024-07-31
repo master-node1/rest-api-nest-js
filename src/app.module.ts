@@ -9,7 +9,7 @@ import { SearchModule } from './search/search.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/ott'),
+    MongooseModule.forRoot(process.env.DB_URL),
     MovieMOdule,
     UsersModule,
     AuthModule,
