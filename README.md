@@ -58,8 +58,8 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 ## Stay in touch
 
-- Author - [@Sateesh Raja](learnings.sateesh@gmail.com)
-- LinkedIn - [@LinkedIn](https://www.linkedin.com/in/sateesh-raja-sireddi-2631a5178)
+- Author - [@Sateesh Raja](hari.sireddi7776@gmail.com)
+- LinkedIn - [@LinkedIn](https://www.linkedin.com/in/hari-venkata-sateesh-sireddi-2631a5178/)
 
 ## License
 
