@@ -1,0 +1,36 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: ott-lobby-service
+  namespace: default
+  labels:
+    app: ott-lobby-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ott-lobby-service
+  template:
+    metadata:
+      labels:
+        app: ott-lobby-service
+    spec:
+      containers:
+      - name: ott-lobby-service
+        image: "sateesh2233/ott-lobby-service:latest"
+        ports:
+          - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ott-lobby-service
+  namespace: default
+spec:
+  selector:
+    app: ott-lobby-service
+  type: NodePort
+  ports:
+  - name: http
+    targetPort: 3000
+    port: 80

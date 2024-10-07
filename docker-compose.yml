@@ -1,0 +1,134 @@
+# sample compose file for services needed to run a micro service
+# choose based on the services used for microservice   
+
+version: '3'
+
+networks:
+  microservice: # Modify the default network created by docker compose
+    driver: bridge
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ../../docker-composes/mongodb_data:/data/db
+    networks:
+      - microservice 
+    environment:
+      MONGO_INITDB_DATABASE: mydatabase
+
+  mariadb:
+    image: mariadb:11.4.2
+    container_name: mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_DATABASE=waba-accounts-ms 
+    ports:
+      - 3306:3306
+    volumes:
+      - ../../docker-composes/mariadb-data:/var/lib/mysql
+      - ../../docker-composes/mysql:/etc/mysql
+    networks:
+      - microservice
+
+  zookeeper:
+    image: bitnami/zookeeper:latest
+    container_name: zookeeper
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - microservice
+    volumes:
+      - ../../docker-composes/zookeeper-data:/tmp/zookeeper/data
+      - ../../docker-composes/zookeeper-logs:/tmp/zookeeper/logs
+      - ../../docker-composes/zookeeper_data:/bitnami
+    restart: on-failure
+  
+  kafka:
+    image: bitnami/kafka:latest
+    container_name: kafka
+    ports:
+      - "9094:9094"
+    depends_on:
+      - zookeeper
+    environment:
+      - KAFKA_CFG_NODE_ID=0
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,EXTERNAL://localhost:9094
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+    volumes:
+      - ../../docker-composes/kafka-data:/bitnami
+    networks:
+      - microservice
+    restart: on-failure
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ../../docker-composes/redis-logs:/var/log/redis
+    networks:
+      - microservice
+    restart: on-failure
+  
+  ocmp-wallet-rating-ms:
+    build:
+      context: ./ocmp-wallet-rating-ms
+      dockerfile: Dockerfile
+    deploy:
+      replicas: 3
+    ports:
+      - "9014"  # Maps port 3000 on the host to port 3000 in the container
+    networks:
+      - microservice
+    environment:
+      ENV: local
+      DB_HOST: mariadb
+      DB_PORT: 3306
+      KAFKA_HOST: kafka
+      KAFKA_PORT: 9092
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      WALLET_DOMAIN: https://vaultdev.zupiq.com/backend
+    depends_on:
+      - mariadb  # Example dependency on a MongoDB service
+      - kafka
+      - redis
+    restart: on-failure
+
+
+  ocmp-ratecard-consumer-ms:
+    build:
+      context: ./ocmp-ratecard-consumer-ms
+      dockerfile: Dockerfile
+    ports:
+      - "9019"  # Maps port 3000 on the host to port 3000 in the container
+    networks:
+      - microservice
+    environment:
+      ENV: local
+      DB_HOST: mariadb
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: root
+      KAFKA_HOST: kafka
+      KAFKA_PORT: 9092
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    depends_on:
+      - mariadb  # Example dependency on a MongoDB service
+      - kafka
+      - redis
+    restart: on-failure
+
+
