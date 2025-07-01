@@ -81,9 +81,9 @@ services:
       - microservice
     restart: on-failure
   
-  ocmp-wallet-rating-ms:
+  rest-api-nest-js:
     build:
-      context: ./ocmp-wallet-rating-ms
+      context: ./
       dockerfile: Dockerfile
     deploy:
       replicas: 3
@@ -99,36 +99,9 @@ services:
       KAFKA_PORT: 9092
       REDIS_HOST: redis
       REDIS_PORT: 6379
-      WALLET_DOMAIN: https://vaultdev.zupiq.com/backend
     depends_on:
       - mariadb  # Example dependency on a MongoDB service
       - kafka
       - redis
     restart: on-failure
-
-
-  ocmp-ratecard-consumer-ms:
-    build:
-      context: ./ocmp-ratecard-consumer-ms
-      dockerfile: Dockerfile
-    ports:
-      - "9019"  # Maps port 3000 on the host to port 3000 in the container
-    networks:
-      - microservice
-    environment:
-      ENV: local
-      DB_HOST: mariadb
-      DB_PORT: 3306
-      DB_USER: root
-      DB_PASSWORD: root
-      KAFKA_HOST: kafka
-      KAFKA_PORT: 9092
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-    depends_on:
-      - mariadb  # Example dependency on a MongoDB service
-      - kafka
-      - redis
-    restart: on-failure
-
 
