@@ -1,66 +1,119 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# rest-api-nest-js
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A RESTful API service built using NestJS and TypeScript.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Overview
 
-## Description
+This repository provides a modular and scalable REST API boilerplate using [NestJS](https://nestjs.com/). It is designed for rapid development of robust server-side applications and supports advanced features such as observability and distributed tracing.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+---
 
-## Installation
+## Table of Contents
 
-```bash
-$ npm install
-```
+- [Features](#features)
+- [Running Locally](#running-locally)
+- [Running with Docker](#running-with-docker)
+- [Tracing & Observability](#tracing--observability)
+  - [Auto Instrumentation](#auto-instrumentation)
+  - [Manual Code Instrumentation](#manual-code-instrumentation)
+- [License](#license)
 
-## Running the app
+---
 
-```bash
-# development
-$ npm run start
+## Features
 
-# watch mode
-$ npm run start:dev
+- Built with TypeScript and NestJS
+- Modular structure for scalability
+- RESTful API design
+- Ready for Docker containerization
+- Tracing and observability support (auto + manual modes)
+- MIT License
 
+---
 
-```use the postman document in repo to access apis. To access post, put ,delete api use login api and copy the token and set it as bearer token request auth
+## Running Locally
 
-## Test
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/master-node1/rest-api-nest-js.git
+   cd rest-api-nest-js
+   ```
 
-```bash
-# unit tests
-$ npm run test
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+   
+3. **Copy `.env.example` to `.env` and configure values as needed.**
 
-```
+4. **Run the application:**
+   ```bash
+   npm run start:dev
+   ```
+   The service will be available at `http://localhost:3000`.
 
-## Support
+---
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Running with Docker
 
-## Stay in touch
+1. **Build the Docker image:**
+   ```bash
+   docker build -t rest-api-nest-js .
+   ```
 
-- Author - [@Hari venkata sateesh raja](hari.sireddi7776@gmail.com)
-- LinkedIn - [@LinkedIn](https://www.linkedin.com/in/hari-venkata-sateesh-sireddi-2631a5178/)
+2. **Run the container:**
+   ```bash
+   docker run --env-file .env -p 3000:3000 rest-api-nest-js
+   ```
+
+   Or, using docker-compose (if a `docker-compose.yml` file is provided):
+   ```bash
+   docker-compose up --build
+   ```
+
+---
+
+## Tracing & Observability
+
+This service supports distributed tracing for better observability. You can instrument tracing in two ways:
+
+### Auto Instrumentation
+
+- **Setup:** 
+  - Use a tracing agent (e.g., OpenTelemetry, Jaeger, or Zipkin) and configure environment variables in `.env` to enable auto instrumentation.
+  - Make sure the tracing SDK or agent is installed and initialized before the NestJS app starts.
+
+- **Sample configuration in `.env`:**
+  ```
+    OTEL_SERVICE_NAME: rest-api-nest-js
+    OTEL_RESOURCE_ATTRIBUTES: cx.application.name=rest-api-nest-js,service.namespace=default
+    OTEL_LOG_LEVEL: debug
+    OTEL_TRACES_EXPORTER: otlp
+    OTEL_METRICS_EXPORTER: otlp
+    OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317   # or your SaaS
+    OTEL_EXPORTER_OTLP_PROTOCOL: grpc
+    OTEL_EXPORTER_OTLP_HEADERS: Authorization=Bearer 1bXXX5-XXX-5XXX-XXX-7XXXXXXXXX
+    OTEL_METRIC_EXPORT_INTERVAL: 60000
+    OTEL_METRIC_EXPORT_TIMEOUT: 30000
+    OTEL_NODE_ENABLED_INSTRUMENTATIONS: http,express
+    OTEL_NODE_RESOURCE_DETECTORS: env,host,os
+  ```
+- **Behavior:** 
+  - HTTP requests, database calls, and common NestJS lifecycle events are automatically traced and exported to your configured backend.
+
+### Manual Code Instrumentation
+
+- **Setup:** 
+  - Import tracing libraries (e.g., OpenTelemetry API) in your services or controllers.
+  - Use manual span creation to trace critical or custom code sections.
+
+- **Sample usage:**
+  ```
+    // src/tracing/tracing.service.ts
+  ```
+
+---
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+This project is licensed under the [MIT License](LICENSE).
