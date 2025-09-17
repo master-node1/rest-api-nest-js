@@ -99,6 +99,23 @@ services:
       KAFKA_PORT: 9092
       REDIS_HOST: redis
       REDIS_PORT: 6379
+      
+      # --- OpenTelemetry ---
+      OTEL_SERVICE_NAME: rest-api-nest-js
+      OTEL_RESOURCE_ATTRIBUTES: cx.application.name=rest-api-nest-js,service.namespace=default
+      OTEL_LOG_LEVEL: debug
+      OTEL_TRACES_EXPORTER: otlp
+      OTEL_METRICS_EXPORTER: otlp
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317   # or your SaaS
+      OTEL_EXPORTER_OTLP_PROTOCOL: grpc
+      OTEL_EXPORTER_OTLP_HEADERS: Authorization=Bearer 1bXXX5-XXX-5XXX-XXX-7XXXXXXXXX
+      OTEL_METRIC_EXPORT_INTERVAL: 60000
+      OTEL_METRIC_EXPORT_TIMEOUT: 30000
+      OTEL_NODE_ENABLED_INSTRUMENTATIONS: http,express
+      OTEL_NODE_RESOURCE_DETECTORS: env,host,os
+
+      # preload instrumentation
+      NODE_OPTIONS: --require @opentelemetry/auto-instrumentations-node/register
     depends_on:
       - mariadb  # Example dependency on a MongoDB service
       - kafka

@@ -15,6 +15,7 @@ import { TracingModule } from './tracer/trace.module';
     UsersModule,
     AuthModule,
     SearchModule,
+    // if auto-instrumentation from env configured no need to use this module
     TracingModule,
   ],
   controllers: [AppController],
