@@ -1,7 +1,7 @@
 resource "aws_launch_template" "ecs_lt" {
- name_prefix   = "white-heart-ecs-template"
+ name_prefix   = var.product_name
  image_id      = "ami-062c116e449466e7f"
- instance_type = "t3.micro"
+ instance_type = "t2.micro"
 
  key_name               = "ec2ecsglog"
  vpc_security_group_ids = [aws_security_group.security_group.id]

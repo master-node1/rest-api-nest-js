@@ -44,7 +44,7 @@ resource "aws_route_table_association" "subnet2_route" {
 
 
 resource "aws_security_group" "security_group" {
- name   = "ecs-security-group"
+ name   = var.product_name
  vpc_id = aws_vpc.main.id
 
  ingress {

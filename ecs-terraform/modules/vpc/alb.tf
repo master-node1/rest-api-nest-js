@@ -1,5 +1,5 @@
 resource "aws_lb" "ecs_alb" {
- name               = "white-heat-alb"
+ name               = var.service_name
  internal           = false
  load_balancer_type = "application"
  security_groups    = [aws_security_group.security_group.id]
@@ -16,7 +16,7 @@ resource "aws_lb_listener" "ecs_alb_listener" {
 }
 
 resource "aws_lb_target_group" "ecs_tg" {
- name        = "ecs-target-group"
+ name        = var.service_name
  port        = 80
  protocol    = "HTTP"
  target_type = "ip"
